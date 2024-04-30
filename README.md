@@ -1,4 +1,4 @@
-# Aplikasi TEL-U Library
+# Aplikasi Konsultasi Kesehatan
 Tugas Besar Mata Kuliah Algoritma Pemprograman.
 ## Deskripsi Aplikasi
 
