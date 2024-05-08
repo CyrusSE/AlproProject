@@ -36,3 +36,18 @@ Not yet.
   - Login berhasil: -
   - Login gagal: Pesan error (gunakan PIN untuk recovery) dan opsi untuk mencoba lagi.
   - Akun tidak ditemukan: Pesan error dan opsi untuk registrasi.
+
+## Patch 1.2
+- Removed external package.
+- Add created total account.
+- Fix some bugs.
+- Function untuk mencari dan mengecek akun exist atau tidak.
+- Function untuk mencari index dari akun yang dicari.
+- Better login account algorithm.
+- **Add creating account**:
+  - Buat akun gagal jika username sudah digunakan.
+  - Save nama, nama, username, password, PIN ke array struct.
+- **Add recovery account**:
+  - Recovery gagal jika input PIN berbeda dengan data pin dari username yang diminta.
+  - Recovery gagal jika akun tidak ditemukan.
+  - Recovery berhasil dan ganti password baru jika input PIN benar.
