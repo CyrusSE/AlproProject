@@ -51,3 +51,24 @@ Not yet.
   - Recovery gagal jika input PIN berbeda dengan data pin dari username yang diminta.
   - Recovery gagal jika akun tidak ditemukan.
   - Recovery berhasil dan ganti password baru jika input PIN benar.
+
+## Patch 1.3
+- Fix some bugs for invalid option.
+- **Login account finally works**:
+  - Jika login berhasil maka akan dilempar ke menu utama pasien.
+- **Add struct pertanyaan**:
+  - tag (Judul pertanyaan)
+  - pertanyaan
+  - tanggapan
+  - date
+  - author
+- **Logged pasien bisa posting pertanyaan**:
+  - Judul pertanyaan adalah Tag.
+  - Pertayaan di parse menggunakan library bufio agar pertanyaa bisa lebih dari 1 kata.
+  - Total pertanyaan di tambah 1.
+  - Save waktu sekarang ke dalam struct pertanyaan dengan library time.
+- **Lihat Forum Pertanyaan (half working)**:
+  - format : (tag)  (date)  (author)
+
+
+
