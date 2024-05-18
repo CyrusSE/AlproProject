@@ -564,11 +564,12 @@ func InsertionSortQuestion(Q *que, P int) {
 		j := i - 1
 		for j >= 0 && Q[j].jumlah_tanggapan < num.jumlah_tanggapan {
 			Q[j+1] = Q[j]
-			Q[j+1].id = Q[j].id
 			j = j - 1
 		}
 		Q[j+1] = num
-		Q[j+1].id = num.id
+	}
+	for i := 0; i < P; i++ {
+		Q[i].id = i + 1
 	}
 }
 
@@ -581,8 +582,8 @@ func SelectionSortQuestion(Q *que, P int) {
 				idx = x
 			}
 		}
-		Q[i], Q[idx] = Q[idx], Q[i]
 		Q[i].id, Q[idx].id = Q[idx].id, Q[i].id
+		Q[i], Q[idx] = Q[idx], Q[i]
 	}
 }
 
