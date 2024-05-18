@@ -2,16 +2,28 @@
 Tugas Besar Mata Kuliah Algoritma Pemprograman.
 ## Deskripsi Aplikasi
 
-Not yet.
+Aplikasi ini digunakan oleh pasien dan dokter. Data yang diolah adalah data konsultasi antara pasien dan dokter.
 
 ## Dibuat Oleh
 
-- Faisal Ihsan Santoso
+- Faisal Ihsan Santoso (main coder)
 - Arie Farchan Fyrzatullah
 
-## Fitur
+## Spesifikasi
+- a.	Pengguna bisa mendaftar ke aplikasi sebagai pasien.
+- b.	Pasien bisa konsultasi dengan posting pertanyaan melalui aplikasi.
+- c.	Dokter dan Pasien bisa memberikan tanggapan terhadap pertanyaan dari pasien.
+- d.	Pengguna yang tidak mendaftar hanya bisa melihat forum konsultasi antara pasien dan dokter.
+- e.	Pertanyaan perlu diberi tag tertentu untuk memudahkan pencarian dan pengurutan.
+- f.	Pengguna bisa mencari pertanyaan tertentu berdasarkan tag yang dicari.
+- g.	Dokter bisa menampilkan topik atau tag terurut berdasarkan jumlah pertanyaannya.
+- h.	Pengguna menampilkan pertanyaan yang diberi tag dan yang tidak diberi tag.
 
-Not yet.
+## Extra 
+- Recovery account pasien
+- Load backup
+- Friendly User Interface
+- Error option handler
 
 ## Patch 1.0
 
@@ -69,6 +81,25 @@ Not yet.
   - Save waktu sekarang ke dalam struct pertanyaan dengan library time.
 - **Lihat Forum Pertanyaan (half working)**:
   - format : (tag)  (date)  (author)
+
+## Patch 2.0
+- Big update on program so skipped all patch.
+- added load account and qusetion agar tidak memakan waktu saat mempraktekan.
+- **added PrintForum untuk menampilkan semua pertanyaan yang ada, dengan format (TAG, LAST POST, AUTHOR, TANGGAPAN)**:
+  - Pengguna biasa hanya bisa melihat forum dan mengurutkan tanggapan terbanyak/terdikit.
+  - Pengguna dapat mencari pertanyaan dengan TAG.
+  - Jika pengguna adalah `DOKTER` atau `PASIEN` maka bisa memberikan tanggapan.
+- added metode binary search untuk mencari pasien.
+- **added metode Selection Sort**:
+  - SelectionSortAccount untuk mengurukan data nama pasien sesuai abjad.
+  - SelectionSortQuestion untuk mengurutkan jumlah tanggapan pada pertanyaan dari paling sedikit ke banyak.
+- **added metode Insertion Sort**:
+  - InsertionSortQuestion untuk mengurutan jumlah tanggapan pada pertanyaan dari paling banyak ke sedikit.
+- added ViewQuestion untuk menampilkan pertanyaan serta tanggapan dokter/pasien.
+- improved menu procedure, using list of string now, instead alot parameter.
+- imporoved base code.
+
+
 
 
 
