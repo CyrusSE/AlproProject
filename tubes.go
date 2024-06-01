@@ -137,6 +137,7 @@ func main_dokter(akun acc, T *int, P *int, question que, nama string) {
 			list := []string{"Tidak ada pasien yang tersedia saat ini."}
 			menu("", list, pesan, "DOKTER", false, &akun, *T, *P, &question)
 		} else {
+			SelectionSortAccount(&akun, *T)
 			pesan := []string{"Silahkan masukkan nama pasien."}
 			list := []string{"List nama pasien : "}
 			for i := 0; i < *T; i++ {
@@ -441,28 +442,51 @@ func PrintForum(A acc, T int, P int, Q que, usertype, username string, NotFound 
 		kata := fmt.Sprintf("Tag%-8sLast Post%-14sAuthor%-19sTanggapan", "", "", "")
 		list := []string{kata}
 		for i := 0; i < P; i++ {
-			kata2 := fmt.Sprintf("%d. %-7s %-23s%-26s%d", i+1, Q[i].tag, Q[i].date, Q[i].author, Q[i].jumlah_tanggapan)
-			list = append(list, kata2)
+			if i >= 9 {
+				kata2 := fmt.Sprintf("%d. %-6s %-23s%-26s%d", i+1, Q[i].tag, Q[i].date, Q[i].author, Q[i].jumlah_tanggapan)
+				list = append(list, kata2)
+			} else {
+				kata2 := fmt.Sprintf("%d. %-7s %-23s%-26s%d", i+1, Q[i].tag, Q[i].date, Q[i].author, Q[i].jumlah_tanggapan)
+				list = append(list, kata2)
+			}
 		}
 		pesan := []string{" ", "Silahkan pilih keperluan anda.", " ", "1. Lihat Pertanyaan", "2. Cari Pertanyaan dengan Tag", "3. Urutkan dari tanggapan terbanyak", "4. Urutkan dari tanggapan sedikit", "5. Kembali"}
 		if NotFound {
 			menu("Pertanyaan tidak di temukan.", list, pesan, "MAIN", false, &A, T, P, &Q)
 		} else {
-			menu("Selamat datang di Forum Konsultasi.", list, pesan, "MAIN", false, &A, T, P, &Q)
+			if usertype == "PENGGUNA" {
+				menu("Selamat datang di Forum Konsultasi.", list, pesan, "MAIN", false, &A, T, P, &Q)
+			} else if usertype == "DOKTER" {
+				menu("Selamat datang di Forum Konsultasi.", list, pesan, "DOKTER", false, &A, T, P, &Q)
+			} else {
+				menu("Selamat datang di Forum Konsultasi.", list, pesan, "PASIEN", false, &A, T, P, &Q)
+			}
 		}
 		fmt.Scanln(&pilihan)
 		switch pilihan {
 		case 1:
 			var id int
 			pesan := []string{"Pilih pertanyaan yang anda ingin liat."}
-			menu("Selamat datang di Forum Konsultasi.", list, pesan, "MAIN", true, &A, T, P, &Q)
+			if usertype == "PENGGUNA" {
+				menu("Selamat datang di Forum Konsultasi.", list, pesan, "MAIN", true, &A, T, P, &Q)
+			} else if usertype == "DOKTER" {
+				menu("Selamat datang di Forum Konsultasi.", list, pesan, "DOKTER", true, &A, T, P, &Q)
+			} else {
+				menu("Selamat datang di Forum Konsultasi.", list, pesan, "PASIEN", true, &A, T, P, &Q)
+			}
 			fmt.Printf("%24s %s", "", "Masukkan nomor Pertanyaan yang ingin Anda lihat : ")
 			fmt.Scanln(&id)
 			ViewQuestion(A, T, P, id, &Q, usertype, username)
 		case 2:
 			var tag string
 			pesan := []string{"Berikan TAG pertanyaan yang anda ingin liat."}
-			menu("Selamat datang di Forum Konsultasi.", list, pesan, "MAIN", true, &A, T, P, &Q)
+			if usertype == "PENGGUNA" {
+				menu("Selamat datang di Forum Konsultasi.", list, pesan, "MAIN", true, &A, T, P, &Q)
+			} else if usertype == "DOKTER" {
+				menu("Selamat datang di Forum Konsultasi.", list, pesan, "DOKTER", true, &A, T, P, &Q)
+			} else {
+				menu("Selamat datang di Forum Konsultasi.", list, pesan, "PASIEN", true, &A, T, P, &Q)
+			}
 			fmt.Printf("%24s %s", "", "Masukkan TAG Pertanyaan yang ingin Anda lihat : ")
 			fmt.Scanln(&tag)
 			id := findIndexQuestion2(Q, P, tag)
@@ -602,7 +626,6 @@ func SelectionSortAccount(A *acc, T int) {
 
 // Binary search untuk mencari nama pasien yang sudah di urutkan sesuai abjad
 func caripasien(A *acc, T int, nama string) int {
-	SelectionSortAccount(A, T)
 	kiri := 0
 	kanan := T - 1
 	var nama_s string
@@ -619,12 +642,9 @@ func caripasien(A *acc, T int, nama string) int {
 		} else if nama_cari > nama_idx {
 			kiri = tengah + 1
 		} else {
-			break
+			return tengah
 		}
 		tengah = (kiri + kanan) / 2
-	}
-	if nama_cari == nama_idx {
-		return tengah
 	}
 	return -1
 }
@@ -706,27 +726,79 @@ func load(A *acc, T *int, P *int, Q *que) {
 	//urutan : NAMA, USERNAME, PASSWORD, PIN, JUMLAH POST
 	A[*T] = load_account("Jarjit Susanto", "jarjit", "jar123", 1234, 0)
 	*T += 1
-	A[*T] = load_account("Faisal Ihsan Santoso", "faisal", "1234", 1122, 2)
+	A[*T] = load_account("Faisal Ihsan Santoso", "faisal", "1234", 1122, 4)
 	*T += 1
-	A[*T] = load_account("Arie Farchan Fyrzatullah", "arie", "ariex", 1234, 1)
+	A[*T] = load_account("Arie Farchan Fyrzatullah", "arie", "ariex", 1234, 3)
 	*T += 1
-	A[*T] = load_account("Rizki Nata", "nata", "riznat", 9876, 0)
+	A[*T] = load_account("Rizki Nata", "nata", "riznat", 9876, 2)
 	*T += 1
-	A[*T] = load_account("Jundi Haq", "jundHD", "junjun", 2222, 0)
+	A[*T] = load_account("Jundi Haq", "jundHD", "junjun", 2222, 3)
 	*T += 1
-	A[*T] = load_account("Bayu Putra", "bayu", "bay", 4444, 0)
+	A[*T] = load_account("Bayu Putra", "bayu", "bay", 4444, 1)
 	*T += 1
 	//urutan : ID, TAG, PERTANYAAN, TANGAPPAN (list), TANGGAL LAST POST, AUTHOR
 	list := []string{"dr.budi : Anda bisa mengurangi gejala alergi musiman", "Faisal Ihsan Santoso : Terima kasih atas informasinya, dr.budi.", "dr.budi : Obat antihistamin dan dekongestan bisa membantu gejala."}
 	Q[*P] = load_question(1, "Alergi", "Apa yang bisa saya lakukan untuk mengurangi gejala alergi musiman?", list, "1 Desember 2019 15:04", "Faisal Ihsan Santoso")
 	Q[*P].jumlah_tanggapan = 3
 	*P += 1
+
 	list2 := []string{"dr.hadi : Jika batuk Anda disebabkan oleh alergi, hindari asap rokok.", "dr.eka : Minum banyak air, menjaga kebersihan udara di sekitar Anda.", "dr.Gita : Ada banyak jenis obat, tergantung pada penyebab batuk Anda.", "Arie Farchan Fyrzatullah : Terimakasih atas informasinya, para dokter"}
 	Q[*P] = load_question(2, "Batuk", "Apakah batuk yang saya alami ini perlu diperiksakan lebih lanjut?", list2, "20 Februari 2021 11:55", "Arie Farchan Fyrzatullah")
 	Q[*P].jumlah_tanggapan = 4
 	*P += 1
+
 	list3 := []string{"dr.dian : Efek samping dari antihistamin adalah mulut kering."}
 	Q[*P] = load_question(3, "Obat", "Apakah ada efek samping dari obat yang sedang saya konsumsi?", list3, "9 Maret 2024 9:34", "Faisal Ihsan Santoso")
 	Q[*P].jumlah_tanggapan = 1
+	*P += 1
+
+	list4 := []string{"dr.Lina : Minum banyak air dan hindari menahan kencing.", "Arie Farchan Fyrzatullah : Apakah ada makanan yang membantu?", "dr. Lina : Iya. Jus cranberry juga bisa membantu mencegah infeksi."}
+	Q[*P] = load_question(4, "Anak", "Bagaimana cara menangani demam pada anak-anak?", list4, "17 Maret 2024 7:25", "Arie Farchan Fyrzatullah")
+	Q[*P].jumlah_tanggapan = 3
+	*P += 1
+
+	list5 := []string{"dr.Wisnu : Ya, untuk mencegah komplikasi flu.", "Jundi Haq : Siapa yang paling perlu vaksin flu?", "dr. Wisnu : Orang tua dan anak kecil dengan kondisi medis kronis."}
+	Q[*P] = load_question(5, "Vaksin", "Bagaimana cara menangani demam pada anak-anak?", list5, "27 Mei 2023 13:21", "Jundi Haq")
+	Q[*P].jumlah_tanggapan = 3
+	*P += 1
+
+	list6 := []string{"dr.Udin : Minimal 150 menit per minggu.", "Rizki Nata:enis olahraga yang disarankan?", "dr. Udin : Aerobik seperti berjalan cepat atau bersepeda."}
+	Q[*P] = load_question(6, "Jantung", " Seberapa sering saya harus berolahraga untuk menjaga kesehatan jantung??", list6, "2 November 2022 19:17", "Rizki Nata")
+	Q[*P].jumlah_tanggapan = 3
+	*P += 1
+
+	list7 := []string{"dr.Oka : Olahraga ringan dan obat pereda nyeri.", "Faisal Ihsan Santoso : Apakah perlu fisioterapi?", "dr. Oka : Fisioterapi bisa sangat membantu"}
+	Q[*P] = load_question(7, "Nyeri", "Bagaimana cara mengatasi nyeri sendi yang kronis?", list7, "5 Januari 2023 13:01", "Faisal Ihsan Santoso")
+	Q[*P].jumlah_tanggapan = 3
+	*P += 1
+
+	list8 := []string{"dr.Joko : Kelelahan, pucat, dan sesak napas."}
+	Q[*P] = load_question(8, "Anemia", "Apa saja gejala anemia yang harus saya perhatikan?", list8, "13 September 2023 9:41", "Bayu Putra")
+	Q[*P].jumlah_tanggapan = 1
+	*P += 1
+
+	list9 := []string{"dr.Zaki : Olahraga, meditasi, dan teknik relaksasi.", "Faisal Ihsan Santoso : Terimakasih atas sarannya dr.Zaki"}
+	Q[*P] = load_question(9, "Stres", "Bagaimana cara mengelola stres yang berlebihan?", list9, "30 April 2022 23:51", "Faisal Ihsan Santoso")
+	Q[*P].jumlah_tanggapan = 2
+	*P += 1
+
+	list10 := []string{"dr.Vira : Jika diet Anda seimbang, tidak perlu.", "Jundi Haq : Kapan suplemen diperlukan?", "dr.Vira : Saat ada kekurangan vitamin tertentu.", "Jundi Haq : Saya dalam keadan sehat", "dr.Vira : Maka, suplemen tidak dibutuhkan", "Jundi Haq : Terimakasih Dok"}
+	Q[*P] = load_question(10, "Diet", "Apakah saya perlu suplemen vitamin tambahan?", list10, "29 februari 2024 8:45", "Jundi Haq")
+	Q[*P].jumlah_tanggapan = 6
+	*P += 1
+
+	list11 := []string{"dr.Andy : Coba olahraga, meditasi, dan teknik relaksasi.", "Arie Farchan Fyrzatullah : Apakah ada obat yang perlu dikonsumsi", "dr.Andy : Saya sarankan konsul lebih lanjut ke Psikiater"}
+	Q[*P] = load_question(11, "Pusing", "Cara meredakan pusing akibat tugas?", list11, "1 Maret 2021 22:33", "Arie Farchan Fyrzatullah")
+	Q[*P].jumlah_tanggapan = 3
+	*P += 1
+
+	list12 := []string{"dr.Rina : DPT, MMR, polio, dan hepatitis B."}
+	Q[*P] = load_question(12, "Imun", "Apa saja vaksin yang direkomendasikan untuk anak-anak?", list12, "23 April 2018 15:12", "Rizki Nata")
+	Q[*P].jumlah_tanggapan = 1
+	*P += 1
+
+	list13 := []string{"dr.Hadi : Debu, asap rokok, dan bulu hewan.", "Jundi Haq : Bagaimana cara mengatasi serangan asma?", "dr.Hadi : Gunakan inhaler sesuai anjuran dokter."}
+	Q[*P] = load_question(13, "Asma", "Apa saja vaksin yang direkomendasikan untuk anak-anak?", list13, "11 Januari 2019 9:31", "Jundi Haq")
+	Q[*P].jumlah_tanggapan = 3
 	*P += 1
 }
