@@ -99,7 +99,6 @@ Aplikasi ini digunakan oleh pasien dan dokter. Data yang diolah adalah data kons
 - improved menu procedure, using list of string now, instead alot parameter.
 - imporoved base code.
 
-
-
-
-
+## Patch 2.1
+- Added more questions and accounts to `load_question` and `load_account` procedure.
+- Added option to Load Backup.
